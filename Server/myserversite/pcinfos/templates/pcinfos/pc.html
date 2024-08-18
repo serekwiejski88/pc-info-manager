@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PC Info</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #cccccc;
+            margin: 10px;
+            padding: 20px;
+            width: 40%;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>System Information</h1>
+    <div class="container">
+
+        <div class="card">
+            <h2>General</h2>
+            <p><strong>System:</strong> {{ pc.system }}</p>
+            <p><strong>Release:</strong> {{ pc.relase }}</p>
+            <p><strong>Node:</strong> {{ pc.node }}</p>
+            <p><strong>Version:</strong> {{ pc.version }}</p>
+            <p><strong>Machine:</strong> {{ pc.machine }}</p>
+            <p><strong>Processor:</strong> {{ pc.processor }}</p>
+            <p><strong>Boot time:</strong> {{ pc.boot_time }}</p>
+        </div>
+
+        <div class="card">
+            <h2>Network</h2>
+            <p><strong>IP address:</strong> {{ pc.ip_address }}</p>
+            <p><strong>MAC address:</strong> {{ pc.mac_address }}</p>
+            <p><strong>Network sent:</strong> {{ pc.network_sent }}</p>
+            <p><strong>Network recived:</strong> {{ pc.network_received }}</p>
+        </div>
+
+        <div class="card">
+            <h2>CPU</h2>
+            <p><strong>Physical cores:</strong> {{ pc.physical_cores }}</p>
+            <p><strong>Total cores:</strong> {{ pc.total_cores }}</p>
+            {% for core in pc.cpu_cores_set.all %}
+                <p><strong>Core {{ core.number }} usage: </strong> {{ core.usage }}</p>
+            {% endfor %}
+            <p><strong>Max frequency:</strong> {{ pc.max_frequency }}</p>
+            <p><strong>Min frequency:</strong> {{ pc.min_frequency }}</p>
+            <p><strong>Current frequency:</strong> {{ pc.current_frequency }}</p>
+        </div>
+
+        <div class="card">
+            <h2>RAM</h2>
+            <p><strong>Total:</strong> {{ pc.memory_total }}</p>
+            <p><strong>Available:</strong> {{ pc.memory_available }}</p>
+            <p><strong>Used:</strong> {{ pc.memory_used }}</p>
+            <p><strong>Percentage:</strong> {{ pc.memory_percentage }}</p>
+        </div>
+
+        <div class="card">
+            <h2>Swap</h2>
+            <p><strong>Total:</strong> {{ pc.swap_total }}</p>
+            <p><strong>Free:</strong> {{ pc.swap_free }}</p>
+            <p><strong>Used:</strong> {{ pc.swap_used }}</p>
+            <p><strong>Percentage:</strong> {{ pc.swap_percentage }}</p>
+        </div>
+
+        <div class="card">
+            <h2>Disks</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Device</th>
+                        <th>Mountpoint</th>
+                        <th>FSType</th>
+                        <th>Total</th>
+                        <th>Used</th>
+                        <th>Free</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for disk in pc.disk_set.all %}
+                    <tr>
+                        <td>{{ disk.device }}</td>
+                        <td>{{ disk.mountpoint }}</td>
+                        <td>{{ disk.fstype }}</td>
+                        <td>{{ disk.total_size }}</td>
+                        <td>{{ disk.used }}</td>
+                        <td>{{ disk.free }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <h2>Running Processes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Start time</th>
+                        <th>CPU usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for process in pc.process_set.all %}
+                    <tr>
+                        <td>{{ process.process_id }}</td>
+                        <td>{{ process.process_name }}</td>
+                        <td>{{ process.process_start_time }}</td>
+                        <td>{{ process.process_cpu_usage }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <h2>Installed Apps</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>App Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in pc.app_set.all %}
+                    <tr>
+                        <td>{{ app.app }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+</body>
+
+</html>
